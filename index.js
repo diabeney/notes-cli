@@ -36,6 +36,10 @@ const CMDS = {
         command: 'list',
         description: 'Lists all notes'
     },
+    CLEAR: {
+        command: '.clear',
+        description: 'Exit the program'
+    }
 }
 
 let notes = [];
@@ -69,6 +73,11 @@ function listNotes() {
     console.log(notes);
     resetConsole();
 };
+
+function closeInterface() {
+    console.log('Exiting notes...')
+    rl.close();
+}
 // function usage() {
 //     return  `Usage: `
 // }
@@ -86,7 +95,14 @@ rl.on('line', (ans) => {
             break;
         case CMDS.LIST.command:
             listNotes();
-            break
+            break;
+        case CMDS.CLEAR.command:
+            closeInterface();
+            break;
         default:
     }
+})
+
+rl.on('close', () => {
+    closeInterface();
 })
