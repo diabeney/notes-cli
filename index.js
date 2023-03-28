@@ -1,73 +1,90 @@
+/* eslint-disable no-console */
+// eslint-disable-next-line node/no-missing-require, import/no-unresolved
+const readline = require('node:readline/promises')
 
-const readline = require('readline');
-// const fs = require('fs');
-/**
- * Create a Todo 
- * Delete a todo
- * list all todos
- */
-const prompt = '>>';
-const rl = readline.createInterface(process.stdin, process.stdout);
-rl.setPrompt(prompt);
-rl.prompt();
+// TODO: IMPLEMENT EXIT COMMAND
+// TODO: FORMAT LIST VIEW
+// TODO: IMPLEMENT USAGE FUNCTION
+// TODO: ORGANISE CODE
+// TODO: TRY STORING DATA AS JSON
+// TODO: BEAUTIFY WITH CHALK
+
+
+const prompt = '>> ';
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+
+function resetConsole() {
+    rl.setPrompt(prompt);
+    rl.prompt();
+}
+
+resetConsole();
 
 const CMDS = {
     ADD: {
         command: 'add',
-        flag: '-a',
         description: 'Add a new entry to the Notes'
     },
     DELETE: {
         command: 'delete',
-        flag: '-d',
         description: 'Deletes an entry from the Notes'
     },
     LIST: {
         command: 'list',
-        flag: '-l',
         description: 'Lists all notes'
     },
 }
 
-const notes = [];
+let notes = [];
 
 
 function saveNote(obj) {
     notes.push(obj)
 };
 
-function addNote(noteTitle) {
-    let noteBody;
-    if(!noteTitle) throw new Error('Please provide a title');
-    rl.question(`What's the body of the note: `, (ans) => {
-        noteBody = ans;
-        rl.setPrompt(prompt);
-        rl.prompt();
-    })
-    saveNote({title: noteTitle, body: noteBody});
-    console.log('note added successfully!');
+async function addNote() {
+    const noteTitle = await rl.question('Title: ');
+    const noteBody = await rl.question('Body: ')
+    const note = {title: noteTitle, body: noteBody};
+    saveNote(note);
+    console.log('Note saved successfully!');
+    resetConsole()
 }
 
 
-
-function deleteNote() {};
-function listNotes() {};
+function deleteNote(title) {
+    const item = notes.find(note => note.title === title);
+    if(item) {
+        notes = notes.filter(note => note.title !== title);
+        console.log(`Note Title '${item.title}' has been deleted successfully!`);
+    } else {
+        console.error('Specify the title of the note to be deleted');
+    }
+    resetConsole()
+};
+function listNotes() {
+    console.log(notes);
+    resetConsole();
+};
 // function usage() {
 //     return  `Usage: `
 // }
 
-rl.on('line', (input) => {
-    const args = input.split(' ');
-    const cmd = args[0];
-    const body = args.splice(1).join(' ');
+rl.on('line', (ans) => {
+    const input = ans.split(' ');
+    const cmd = input[0];
+    const args = input.splice(1).join(' ');
     switch(cmd) {
         case CMDS.ADD.command:
-            addNote(body);
+            addNote(args);
             break;
-        case CMDS.DELETE:
-            deleteNote();
+        case CMDS.DELETE.command:
+            deleteNote(args);
             break;
-        case CMDS.LIST:
+        case CMDS.LIST.command:
             listNotes();
             break
         default:
