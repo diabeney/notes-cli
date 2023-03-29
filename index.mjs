@@ -15,7 +15,7 @@ import chalk from 'chalk';
 const error = chalk.red;
 const success = chalk.green;
 const maintext = chalk.blue;
-const info = chalk.hex('#ffa500')
+const info = chalk.hex('#ffa500');
 
 
 const prompt = maintext('>> ');
@@ -29,8 +29,7 @@ function resetConsole() {
     rl.prompt();
 }
 
-resetConsole();
-
+resetConsole()
 
 const COMMANDS = [
     {
