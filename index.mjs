@@ -48,6 +48,10 @@ const COMMANDS = [
         command: 'leave', 
         description: 'exit the program'
     }, 
+    {
+        command: '--help', 
+        description: 'provides a documentation on how to use the application'
+    }, 
 ]
 
 
@@ -63,7 +67,7 @@ async function addNote() {
     const noteBody = await rl.question('Body: ');
     if(!noteBody || !noteTitle) {
         console.log(error('Title or Body cannot be empty!'));
-        console.log(error('Note save unsuccessful'));
+        console.log(`note save ${error('unsuccessful')}`);
     } else {
         const note = {title: noteTitle, body: noteBody};
         saveNote(note);
@@ -117,6 +121,12 @@ function usage() {
 resetConsole();
 }
 
+function invalidCommand() {
+    const msg = `${error('Invalid Command')}\n\ntype ${maintext('--help')} to see how to use this application.`
+    console.log(msg);
+    resetConsole();
+}
+
 rl.on('line', (ans) => {
     const input = ans.trim().split(' ');
     const cmd = input[0];
@@ -134,8 +144,11 @@ rl.on('line', (ans) => {
         case COMMANDS[3].command:
             closeInterface();
             break;
-        default:
+        case '--help':
             usage();
+            break;
+        default:
+            invalidCommand();
             break;
     }
 })
