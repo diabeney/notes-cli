@@ -128,28 +128,27 @@ function invalidCommand() {
 }
 
 rl.on('line', (ans) => {
-    const input = ans.trim().split(' ');
+    const input = ans.trim().split(' '); // .split should be removed for additional feature
     const cmd = input[0];
     const args = input.splice(1).join(' ');
     switch(cmd) {
         case COMMANDS[0].command:
             addNote(args);
-            break;
+            return;
         case COMMANDS[1].command:
             deleteNote(args);
-            break;
+            return;
         case COMMANDS[2].command:
             listNotes();
-            break;
+            return;
         case COMMANDS[3].command:
             closeInterface();
-            break;
+            return;
         case '--help':
             usage();
-            break;
+            return;
         default:
             invalidCommand();
-            break;
     }
 })
 
