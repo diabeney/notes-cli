@@ -5,7 +5,7 @@ import * as readline from 'node:readline/promises';
 import chalk from 'chalk';
 import { shortCut } from './lib/lib.mjs';
 
-// TODO SAVE NOTES AS JSON IN A FILE
+// TODO:  SAVE NOTES AS JSON IN A FILE
 
 const error = chalk.red;
 const success = chalk.green;
@@ -52,9 +52,6 @@ const COMMANDS = [
     }, 
 ]
 
-
-
-
 function saveNote(obj) {
     notes.push(obj)
 };
@@ -73,7 +70,6 @@ async function addNote() {
     resetConsole()
 }
 
-
 function deleteNote(title) {
     if(!title) {
         console.log(error('Specify the title of the note to be deleted'));
@@ -85,7 +81,7 @@ function deleteNote(title) {
         notes = notes.filter(note => note.title !== item.title);
         console.log(`Note Title ${maintext(`'${item.title}'`)} has been deleted ${success('successfully!')}`);
     } else {
-        console.log(error(`Note with title "${title}" cannot be found.`))
+        console.log(error(`Note with title "${title}" does not exist.`))
     }
     resetConsole()
 };
