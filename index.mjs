@@ -1,16 +1,11 @@
+/* eslint-disable node/no-missing-import */
 /* eslint-disable no-console */
 // eslint-disable-next-line import/no-unresolved
 import * as readline from 'node:readline/promises';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import chalk from 'chalk';
+import { shortCut } from './lib/lib.mjs';
 
-
-
-
-
-// TODO: ORGANISE CODE
-// TODO: ADD SHORTCUT LIKE [add -t "Thanos" -b "The mad Titan" toBe {title: 'Thanos', body: 'The mad Titan'}]
-
+// TODO SAVE NOTES AS JSON IN A FILE
 
 const error = chalk.red;
 const success = chalk.green;
@@ -18,6 +13,9 @@ const maintext = chalk.blue;
 const info = chalk.hex('#ffa500');
 
 
+
+let notes = [];
+const isShortcut = (text) => /^add\s+-t\s+['"]([^'"]+)['"]\s+-b\s+['"]([^'"]+)['"]$/.test(text);
 const prompt = maintext('>> ');
 const rl = readline.createInterface({
     input: process.stdin,
@@ -55,7 +53,6 @@ const COMMANDS = [
 ]
 
 
-let notes = [];
 
 
 function saveNote(obj) {
@@ -128,12 +125,20 @@ function invalidCommand() {
 }
 
 rl.on('line', (ans) => {
-    const input = ans.trim().split(' '); // .split should be removed for additional feature
+    if(isShortcut(ans)) {
+        const note = shortCut(ans);
+        saveNote(note);
+        console.log(success('Note saved successfully!'));
+        resetConsole();
+        return;
+    };
+    const input = ans.trim().split(' ');
     const cmd = input[0];
     const args = input.splice(1).join(' ');
+
     switch(cmd) {
         case COMMANDS[0].command:
-            addNote(args);
+            addNote();
             return;
         case COMMANDS[1].command:
             deleteNote(args);

@@ -12,5 +12,7 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-    }
+    // eslint-disable-next-line no-bitwise
+    "import/prefer-default-export": "off" | "warn" | "error"
+}
 }
