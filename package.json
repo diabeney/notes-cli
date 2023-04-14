@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "notes": "node index.mjs"
+    "start": "node index.mjs"
   },
   "keywords": [],
   "author": "Diabene Yaw",
