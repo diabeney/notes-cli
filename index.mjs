@@ -5,7 +5,6 @@ import * as readline from 'node:readline/promises';
 import chalk from 'chalk';
 import { shortCut } from './lib/lib.mjs';
 
-// TODO:  SAVE NOTES AS JSON IN A FILE
 
 const error = chalk.red;
 const success = chalk.green;
